@@ -32,7 +32,7 @@ export class ContatoService {
   }
 
   addContato(contatoParam: Contato) {
-    let contatoJson = { "contato": JSON.stringify(contatoParam) };
+    let contatoJson = { "name": contatoParam.name, "email": contatoParam.email, "phoneNumber": contatoParam.phoneNumber };
     this.http.post<any>(`${this.contatosUrl}`, contatoJson, {
       "headers":
         this.headers
@@ -47,8 +47,8 @@ export class ContatoService {
   }
 
   editContato(contatoParam: Contato) {
-    let contatoJson = { "contato": JSON.stringify(contatoParam) };
-    return this.http.put<any>(`${this.contatosUrl}`, contatoJson, {
+    let contatoJson = { "name": contatoParam.name, "email": contatoParam.email, "phoneNumber": contatoParam.phoneNumber };
+    return this.http.put<any>(`${this.contatosUrl}/${contatoParam.id}`, contatoJson, {
       "headers"
         : this.headers
     }).subscribe({

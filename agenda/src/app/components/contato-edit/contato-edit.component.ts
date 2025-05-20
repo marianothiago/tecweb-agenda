@@ -17,9 +17,9 @@ export class ContatoEditComponent {
   contato!: Contato;
   class_validate = "needs-validation";
   form_dados = new FormGroup({
-    nome: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    telefone: new FormControl('', Validators.required)
+    phoneNumber: new FormControl('', Validators.required)
   });
 
   constructor(private router: Router, private contatoService: ContatoService) {
@@ -32,12 +32,36 @@ export class ContatoEditComponent {
     }
   }
 
+  ngOnInit(): void {
+    if (this.idContato) {
+      this.contatoService.getContatoById(this.idContato).subscribe({
+        next: (contato) => {
+          if (contato.name) {
+            this.contato = contato;
+            this.preencheForm(contato);
+          }
+        },
+        error: (erro) => {
+          console.log(erro)
+        }
+      });
+    }
+  }
+
+  preencheForm(contato: Contato) {
+    this.f_dados.name.setValue(contato.name);
+    this.f_dados.email.setValue(contato.email);
+    this.f_dados.phoneNumber.setValue(contato.phoneNumber);
+  }
+
+  get f_dados() { return this.form_dados.controls; }
+
   valida_campos_dados(): boolean {
     if (this.form_dados.invalid) {
-      this.class_validate = "was-validated";
+      this.class_validate = "needs-validation";
       return false;
     } else {
-      this.class_validate = "needs-validation";
+      this.class_validate = "was-validated";
       return true;
     }
   }
@@ -46,9 +70,9 @@ export class ContatoEditComponent {
     if (this.valida_campos_dados()) {
       let contato = Object.assign(this.form_dados.value)
       if (this.idContato) {
-        this.contato.name = contato.nome;
+        this.contato.name = contato.name;
         this.contato.email = contato.email;
-        this.contato.phoneNUmber = contato.telefone;
+        this.contato.phoneNumber = contato.phoneNumber;
         this.contatoService.editContato(this.contato);
       } else {
         this.contatoService.addContato(contato);

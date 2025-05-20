@@ -5,9 +5,13 @@ class ContactPersistence(BasePersistence):
 
     def getAll(self):
         return self.getRecords("select id, email, name, phoneNumber from contacts")
-    
-    def save(self, email, name, phoneNUmber):
-        params = [email, name, phoneNUmber]
+
+    def getById(self, id):
+        params = [id]
+        return self.getRecordByParameter("select id, email, name, phoneNumber from contacts where id = ?", params)
+
+    def save(self, email, name, phoneNumber):
+        params = [email, name, phoneNumber]
         return self.runDMLCommand("insert into contacts (email, name, phoneNumber) values (?, ?, ?)", params)
     
     def update(self, id, email, name, phoneNumber):

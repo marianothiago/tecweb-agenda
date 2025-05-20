@@ -34,7 +34,6 @@ export class ContatoListComponent {
   }
 
   editar(id: number) {
-    alert(id);
     this.router.navigateByUrl("contato/edit",
       {
         state:{

@@ -15,6 +15,12 @@ class ContactBC:
         return jsonify(contacts), 200
 
     @loginRequired
+    def getById(self, id):
+        contactTupla = self.contactPersistence.getById(id)
+        contact = {'id':contactTupla[0], 'email': contactTupla[1], 'name': contactTupla[2], 'phoneNumber': contactTupla[3]}
+        return jsonify(contact), 200
+
+    @loginRequired
     def save(self, contact):
         if self.contactPersistence.save(contact.email, contact.name, contact.phoneNumber) > 0:
             return {"message":"contact saved successfully"}, 200

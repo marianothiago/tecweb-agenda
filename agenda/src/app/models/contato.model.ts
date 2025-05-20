@@ -2,12 +2,12 @@ export class Contato {
     id: number;
     name: string;
     email: string;
-    phoneNUmber: string;
+    phoneNumber: string;
 
-    constructor({id,name,email,phoneNUmber}:Contato){
+    constructor({id,name,email,phoneNumber}:Contato){
         this.id = id;
         this.name = name;
         this.email = email;
-        this.phoneNUmber = phoneNUmber;
+        this.phoneNumber = phoneNumber;
     }
 }

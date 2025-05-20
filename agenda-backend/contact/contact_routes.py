@@ -20,6 +20,7 @@ def getAll():
 def save():
     try:
         if "Authorization" in request.headers:
+            print(request.json)
             if request.json and "email" in request.json and "name" in request.json and "phoneNumber" in request.json:
                 contact = Contact(0, **request.json)
                 return contactBC.save(request.headers["Authorization"], contact)
@@ -36,9 +37,20 @@ def update(id):
         if "Authorization" in request.headers:
             if request.json and "email" in request.json and "name" in request.json and "phoneNumber" in request.json:
                 contact = Contact(id, **request.json)
+                print(contact)
                 return contactBC.update(request.headers["Authorization"], contact)
             else:
                 return {"message":"Some parameter is missing"}, 200
+        else:
+            return {"message":"no permission"}, 401
+    except Exception as error:
+        return str(error), 500
+
+@contactRoutes.route("/api/v1/contact/<string:id>")
+def getById(id):
+    try:
+        if "Authorization" in request.headers:
+            return contactBC.getById(request.headers["Authorization"], id)
         else:
             return {"message":"no permission"}, 401
     except Exception as error:
