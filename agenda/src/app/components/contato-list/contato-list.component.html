@@ -1,0 +1,27 @@
+@if(contatos.length != 0){
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(contato of contatos; track contato.id){
+            <tr>
+                <td>{{ contato.name }}</td>
+                <td>{{ contato.email }}</td>
+                <td>{{ contato.phoneNUmber }}</td>
+                <td>
+                    <img class="edit" src="edit.png" (click)="editar(contato.id)">
+                    <img class="remove" src="remove.png" (click)="remover(contato.id)">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+} @else{
+    <h2>Não existem contatos para serem exibidos</h2>
+}
