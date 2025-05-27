@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Contato } from '../models/contato.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,11 @@ import { Contato } from '../models/contato.model';
 export class ContatoService {
 
   private contatosUrl = 'http://localhost:5000/api/v1/contact';
-  private headers = new HttpHeaders({ "Authorization": "tokenJWT" })
+  private headers = new HttpHeaders({ "Authorization": "tokenJWT" });
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, auth: AuthService) { 
+    this.headers = new HttpHeaders({ "Authorization": auth.getToken() });
+  }
 
   getContatos(): Observable<Contato[]> {
     return this.http.get<Contato[]>(`${this.contatosUrl}`,
@@ -32,7 +35,8 @@ export class ContatoService {
   }
 
   addContato(contatoParam: Contato) {
-    let contatoJson = { "name": contatoParam.name, "email": contatoParam.email, "phoneNumber": contatoParam.phoneNumber };
+    // let contatoJson = { "name": contatoParam.name, "email": contatoParam.email, "phoneNumber": contatoParam.phoneNumber };
+    let contatoJson = JSON.stringify(contatoParam)
     this.http.post<any>(`${this.contatosUrl}`, contatoJson, {
       "headers":
         this.headers

@@ -1,0 +1,14 @@
+<h3>Autenticação</h3>
+<h3 *ngIf="mensagem">{{ mensagem }}</h3>
+<form [ngClass]="class_validate" [formGroup]="form_login" (ngSubmit)="logar()">
+    <div class="form-group">
+        <input type="text" matInput class="form-control" placeholder="usuário" formControlName="username" required>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="senha" formControlName="password" required>
+    </div>
+    <div class="form-group">
+        <input type="submit" mat-button value="Logar" class="btn float-right
+login_btn">
+    </div>
+</form>

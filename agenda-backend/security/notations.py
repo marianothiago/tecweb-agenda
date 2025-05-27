@@ -6,9 +6,9 @@ def loginRequired(func):
     def wrapper(*args, **kwargs):
         try:
             if len(args) > 1:
-                # decodedToken = jwtDecode(args[1])
-                # if not decodedToken:
-                #     return {"message":"invalid token"}, 401
+                decodedToken = jwtDecode(args[1])
+                if not decodedToken:
+                    return {"message":"invalid token"}, 401
                 new_args = list(args)
                 new_args.pop(1)
                 args = tuple(new_args)

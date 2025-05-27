@@ -68,14 +68,14 @@ export class ContatoEditComponent {
 
   salvar() {
     if (this.valida_campos_dados()) {
-      let contato = Object.assign(this.form_dados.value)
+      let novoContato = Object.assign(this.form_dados.value)
       if (this.idContato) {
-        this.contato.name = contato.name;
-        this.contato.email = contato.email;
-        this.contato.phoneNumber = contato.phoneNumber;
+        this.contato.name = novoContato.name;
+        this.contato.email = novoContato.email;
+        this.contato.phoneNumber = novoContato.phoneNumber;
         this.contatoService.editContato(this.contato);
       } else {
-        this.contatoService.addContato(contato);
+        this.contatoService.addContato(novoContato);
       }
       this.router.navigateByUrl('/contato/list');
     }
