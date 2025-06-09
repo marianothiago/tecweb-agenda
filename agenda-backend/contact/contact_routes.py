@@ -10,7 +10,13 @@ contactBC = ContactBC()
 def getAll():
     try:
         if "Authorization" in request.headers:
-            return contactBC.getAll(request.headers["Authorization"])
+            page = request.args.get('page', default=1, type=int)
+            itensByPage = request.args.get('itensByPage', default=2, type=int)
+            offset = (page - 1) * itensByPage
+            if page == None or itensByPage == None or offset == None:
+                page = 1
+                itensByPage = 5
+            return contactBC.getAll(request.headers["Authorization"], page, itensByPage, offset)
         else:
             return {"message":"no permission"}, 401
     except Exception as error:

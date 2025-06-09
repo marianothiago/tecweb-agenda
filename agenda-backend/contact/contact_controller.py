@@ -10,8 +10,16 @@ class ContactBC:
         self.contactPersistence = ContactPersistence()
 
     @loginRequired
-    def getAll(self):
-        contacts = [{'id':contactTupla[0], 'email': contactTupla[1], 'name': contactTupla[2], 'phoneNumber': contactTupla[3]} for contactTupla in self.contactPersistence.getAll()]
+    def getAll(self, page, itensByPage, offset):
+        contacts = [{'id':contactTupla[0], 'email': contactTupla[1], 'name': contactTupla[2], 'phoneNumber': contactTupla[3]} for contactTupla in self.contactPersistence.getAll(itensByPage, offset)]
+        sizeContacts = self.contactPersistence.getSizeContacts()
+        return jsonify({
+            'contacts': contacts,
+            'size': sizeContacts,
+            'page': page,
+            'itensByPage': itensByPage,
+            'sizePages': sizeContacts // itensByPage + (1 if sizeContacts % itensByPage > 0 else 0)
+        }), 200
         return jsonify(contacts), 200
 
     @loginRequired

@@ -11,12 +11,21 @@ class BasePersistence:
         self.conn.close()
 
     def getRecordsByParameters(self, query, params):
+        print(query)
+        print(params)
         self.connect()
         self.cur.execute(query, (params))
         list = self.cur.fetchall()
         self.disconnect()
         return list
-    
+
+    def getRecord(self, query):
+        self.connect()
+        self.cur.execute(query)
+        entity = self.cur.fetchone()
+        self.disconnect()
+        return entity
+
     def getRecordByParameter(self, query, params):
         self.connect()
         self.cur.execute(query, (params))

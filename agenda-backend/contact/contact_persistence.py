@@ -3,8 +3,13 @@ from persistence.base_persistence import BasePersistence
 
 class ContactPersistence(BasePersistence):
 
-    def getAll(self):
-        return self.getRecords("select id, email, name, phoneNumber from contacts")
+    def getSizeContacts(self):
+        sizeContacts = self.getRecord("select count(*) from contacts")
+        return sizeContacts[0]
+
+    def getAll(self, itensByPage, offset):
+        params = [itensByPage, offset]
+        return self.getRecordsByParameters("select id, email, name, phoneNumber from contacts LIMIT ? OFFSET ?", params)
 
     def getById(self, id):
         params = [id]
