@@ -22,6 +22,11 @@
         }
     </tbody>
 </table>
+<div class="pagination">
+    <button (click)="anterior()" [disabled]="pagina <= 1">Anterior</button>
+    <span>Página {{ pagina }} de {{ qtdPaginas }}</span>
+    <button (click)="proximo()" [disabled]="pagina >= qtdPaginas">Próxima</button>
+</div>
 } @else{
     <h2>Não existem contatos para serem exibidos</h2>
 }

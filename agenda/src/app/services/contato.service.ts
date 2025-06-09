@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Contato } from '../models/contato.model';
+import { Contato, ContatosPaginacao } from '../models/contato.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -16,11 +16,11 @@ export class ContatoService {
     this.headers = new HttpHeaders({ "Authorization": auth.getToken() });
   }
 
-  getContatos(): Observable<Contato[]> {
-    return this.http.get<Contato[]>(`${this.contatosUrl}`,
+  getContatos(pagina: number, itensPorPagina: number): Observable<ContatosPaginacao> {
+    return this.http.get<ContatosPaginacao>(`${this.contatosUrl}?page=${pagina}&itensByPage=${itensPorPagina}`,
       { "headers": this.headers }).pipe(
-        map((contatos: any) => {
-          return contatos;
+        map((contatosPaginacao: any) => {
+          return contatosPaginacao;
         })
       );
   }

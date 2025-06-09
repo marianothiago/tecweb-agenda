@@ -11,3 +11,10 @@ export class Contato {
         this.phoneNumber = phoneNumber;
     }
 }
+export interface ContatosPaginacao {
+    contacts: Contato[];
+    itensByPage: number;
+    page: number;
+    size: number;
+    sizePages: number;
+}

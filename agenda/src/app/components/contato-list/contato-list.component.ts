@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Contato } from '../../models/contato.model';
+import { Contato, ContatosPaginacao } from '../../models/contato.model';
 import { ContatoService } from '../../services/contato.service';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 export class ContatoListComponent {
 
   contatos: Array<Contato> = [];
+  pagina = 1;
+  itensPorPagina = 1;
+  qtdPaginas = 1;
 
   constructor(private router: Router, private contatoService: ContatoService) {}
 
@@ -21,10 +24,12 @@ export class ContatoListComponent {
   }
 
   atualizarContatos(){
-    this.contatoService.getContatos().subscribe(
+    this.contatoService.getContatos(this.pagina, this.itensPorPagina).subscribe(
       {
-        next:(contatos) =>{
-          this.contatos = contatos;
+        next:(contatosPaginacao) =>{
+          this.contatos = contatosPaginacao.contacts;
+          this.pagina = contatosPaginacao.page;
+          this.qtdPaginas = contatosPaginacao.sizePages;
         },
         error: (error) => {
           console.log(error);
@@ -46,5 +51,19 @@ export class ContatoListComponent {
   remover(id: number) {
      this.contatoService.removeContato(id);
      this.atualizarContatos();
+  }
+
+  proximo(): void {
+    if (this.pagina < this.qtdPaginas) {
+      this.pagina++;
+      this.atualizarContatos();
+    }
+  }
+
+  anterior(): void {
+    if (this.pagina > 1) {
+      this.pagina--;
+      this.atualizarContatos();
+    }
   }
 }
